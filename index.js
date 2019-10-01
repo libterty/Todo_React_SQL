@@ -5,8 +5,7 @@ const methodOverride = require('method-override');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
-
-const user = require('./routes/user');
+const flash = require('flash');
 
 const app = express();
 
@@ -43,6 +42,16 @@ require('./config/passport')(passport);
 app.use((req, res, next) => {
   res.locals.user = req.user;
   res.locals.isAuthenticated = req.isAuthenticated();
+  next();
+});
+
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  res.locals.isAuthenticated = req.isAuthenticated();
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.warning_msg = req.flash('warning_msg');
   next();
 });
 
