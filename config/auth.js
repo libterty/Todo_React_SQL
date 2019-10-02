@@ -1,9 +1,9 @@
 module.exports = {
-  authenticated: (req, res, next) => {
-    if (req.isAuthenticated()) {
-      return next();
+    authenticated: (req, res, next) => {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+        req.json({ type: 'Warning', message: 'You must signin first' });
+        res.redirect('/users/login');
     }
-    req.flash('warning_msg', '請先登入才能使用!');
-    res.redirect('/users/login');
-  }
 };
