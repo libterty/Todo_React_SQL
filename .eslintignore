@@ -1,1 +1,9 @@
 /views
+/client/dist
+/config
+/migrations
+/models
+/routes
+/seeders
+/node_modules
+.cache

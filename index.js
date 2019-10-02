@@ -15,15 +15,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 const port = process.env.PORT || 3001;
 
-app.engine(
-  'handlebars',
-  exphbs({
-    extname: '.handlebars',
-    defaultLayout: 'main',
-    layoutsDir: ('views', path.join(__dirname, 'views/layout'))
-  })
-);
-app.set('view engine', 'handlebars');
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'client/dist')));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
@@ -39,6 +32,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
+
 app.use((req, res, next) => {
   res.locals.user = req.user;
   res.locals.isAuthenticated = req.isAuthenticated();
@@ -56,10 +50,14 @@ app.use((req, res, next) => {
 });
 
 // 設定路由
-app.use('/', require('./routes/home'));
-app.use('/todos', require('./routes/todo'));
+// app.use('/', require('./routes/home'));
+// app.use('/todos', require('./routes/todo'));
 app.use('/users', require('./routes/user'));
-app.use('/auth', require('./routes/auths'));
+// app.use('/auth', require('./routes/auths'));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+});
 
 // 設定 express port 3000
 app.listen(port, () => {
