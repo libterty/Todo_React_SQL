@@ -12,11 +12,11 @@ module.exports = passport => {
             User.findOne({ where: { email: email } })
                 .then(user => {
                     if (!user) {
-                        return done(null, false, { message: 'That email is not registered' })
+                        return done(false, false, { message: 'That email is not registered' })
                     }
                     if (user.password != password) {
-                        console.log('user password not correct.')
-                        return done(null, false, { message: 'Email or Password incorrect' })
+                        console.log('Email or Password incorrect')
+                        return done(false, false, { message: 'Wrong Email or Password' })
                     }
                     return done(null, user)
                 })

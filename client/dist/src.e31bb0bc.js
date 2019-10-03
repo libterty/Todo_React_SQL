@@ -43105,27 +43105,29 @@ function (_Component) {
   _inherits(App, _Component);
 
   function App(props) {
-    var _this;
+    var _this2;
 
     _classCallCheck(this, App);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
-    _this.onEntering = _this.onEntering.bind(_assertThisInitialized(_this));
-    _this.onEntered = _this.onEntered.bind(_assertThisInitialized(_this));
-    _this.onExiting = _this.onExiting.bind(_assertThisInitialized(_this));
-    _this.onExited = _this.onExited.bind(_assertThisInitialized(_this));
-    _this.toggle = _this.toggle.bind(_assertThisInitialized(_this));
-    _this.state = {
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
+    _this2.onEntering = _this2.onEntering.bind(_assertThisInitialized(_this2));
+    _this2.onEntered = _this2.onEntered.bind(_assertThisInitialized(_this2));
+    _this2.onExiting = _this2.onExiting.bind(_assertThisInitialized(_this2));
+    _this2.onExited = _this2.onExited.bind(_assertThisInitialized(_this2));
+    _this2.toggle = _this2.toggle.bind(_assertThisInitialized(_this2));
+    _this2.state = {
       collapse: false,
       status: 'Closed',
       name: ''
     };
-    return _this;
+    return _this2;
   }
 
   _createClass(App, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
+    key: "handleServerItemsLoad",
+    value: function handleServerItemsLoad() {
+      var _this = this;
+
       return _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee() {
@@ -43136,30 +43138,47 @@ function (_Component) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return fetch("".concat(document.location.origin));
+                return fetch("".concat(document.location.origin, "/api"), {
+                  method: 'GET'
+                }).then(function (response) {
+                  return response.json();
+                }).then(function (json) {
+                  return _this.setState({
+                    name: json
+                  });
+                });
 
               case 3:
                 res = _context.sent;
-                console.log(res);
 
-                if (res.redirected) {// history.push('/users/login');
-                } else console.log('Success login');
+                if (res.url === 'http://localhost:3001/users/login') {
+                  console.log(res.url);
 
-                _context.next = 11;
+                  _history.default.push('/users/login');
+                } else {
+                  _history.default.push('/');
+                }
+
+                _context.next = 10;
                 break;
 
-              case 8:
-                _context.prev = 8;
+              case 7:
+                _context.prev = 7;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
 
-              case 11:
+              case 10:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 8]]);
+        }, _callee, null, [[0, 7]]);
       }))();
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.handleServerItemsLoad();
     }
   }, {
     key: "onEntering",
@@ -60353,16 +60372,35 @@ function (_Component) {
   }
 
   _createClass(Header, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.isLogout();
+    }
+  }, {
+    key: "isLogout",
+    value: function isLogout() {
+      fetch("http://localhost:3001/users/logout", {
+        method: 'GET'
+      }).then(function (response) {
+        return response.json();
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this = this;
+
       return _react.default.createElement("header", null, _react.default.createElement(_reactBootstrap.Navbar, {
         sticky: "top",
         bg: "dark",
         variant: "dark",
         expand: "lg"
       }, _react.default.createElement(_reactBootstrap.Navbar.Brand, null, " Todo List "), _react.default.createElement(_reactBootstrap.Button, {
-        bsStyle: "danger"
-      }, " Logout ")));
+        bsStyle: "danger",
+        onClick: function onClick() {
+          return _this.isLogout();
+        }
+      }, "Logout")));
     }
   }]);
 
@@ -60623,7 +60661,8 @@ function (_Component) {
     _this.state = {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      msg: ''
     };
     return _this;
   }
@@ -60647,7 +60686,11 @@ function (_Component) {
           password: password
         })
       }).then(function (response) {
-        return response.text();
+        if (response.url === "".concat(document.location.origin, "/users/login")) {
+          _history.default.push('/users/login');
+        } else {
+          _history.default.push('/');
+        }
       });
     } // LoginUser = () => {
     //     const { email, name, password } = this.state;
@@ -60682,8 +60725,8 @@ function (_Component) {
         className: "card card-body"
       }, _react.default.createElement("h1", {
         className: "text-center mb-3"
-      }, " Register "), _react.default.createElement(_reactstrap.Form, {
-        action: "/users/register",
+      }, " Log In "), _react.default.createElement(_reactstrap.Form, {
+        action: "/users/login",
         method: "POST"
       }, _react.default.createElement(_reactstrap.FormGroup, null, _react.default.createElement(_reactstrap.Label, {
         htmlFor: "name"
@@ -68880,7 +68923,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60526" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50075" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

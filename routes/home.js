@@ -6,7 +6,8 @@ const db = require('../models')
 const Todo = db.Todo
 const User = db.User
 
-router.get('/', authenticated, (req, res) => {
+router.get('/api', authenticated, (req, res) => {
+    console.log('req.user.id', req.user.id);
     User.findByPk(req.user.id)
         .then((user) => {
             if (!user) throw new Error("user not found")

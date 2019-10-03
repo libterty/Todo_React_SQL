@@ -20,16 +20,26 @@ class App extends Component {
     this.state = { collapse: false, status: 'Closed', name: '' };
   }
 
-  async componentWillMount() {
+  async handleServerItemsLoad() {
     try {
-      const res = await fetch(`${document.location.origin}`);
-      console.log(res);
-      if (res.redirected) {
-        // history.push('/users/login');
-      } else console.log('Success login');
-    } catch (err) {
-      console.log(err);
+      const res = await fetch(`${document.location.origin}/api`, {
+        method: 'GET'
+      })
+        .then(response => response.json())
+        .then(json => this.setState({ name: json }));
+      if (res.url === 'http://localhost:3001/users/login') {
+        console.log(res.url);
+        history.push('/users/login');
+      } else {
+        history.push('/');
+      }
+    } catch (error) {
+      console.log(error);
     }
+  }
+
+  componentDidMount() {
+    this.handleServerItemsLoad();
   }
 
   onEntering() {

@@ -10,7 +10,8 @@ class LoginUser extends Component {
     this.state = {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      msg: ''
     };
   }
 
@@ -35,7 +36,13 @@ class LoginUser extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ email, name, password })
-    }).then(response => response.text());
+    }).then(response => {
+      if (response.url === `${document.location.origin}/users/login`) {
+        history.push('/users/login');
+      } else {
+        history.push('/');
+      }
+    });
   }
 
   // LoginUser = () => {
@@ -62,8 +69,8 @@ class LoginUser extends Component {
         <div className="row mt-t">
           <div className="col-md-6 m-auto">
             <div className="card card-body">
-              <h1 className="text-center mb-3"> Register </h1>
-              <Form action="/users/register" method="POST">
+              <h1 className="text-center mb-3"> Log In </h1>
+              <Form action="/users/login" method="POST">
                 <FormGroup>
                   <Label htmlFor="name"> Name </Label>
                   <Input
