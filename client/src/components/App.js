@@ -20,17 +20,17 @@ class App extends Component {
     this.state = { collapse: false, status: 'Closed', name: '' };
   }
 
-  // async componentWillMount() {
-  //     try {
-  //         const res = await fetch(`${document.location.origin}`);
-  //         console.log(res);
-  //         if (res.redirected) {
-  //             // history.push('/users/login');
-  //         } else console.log('Success login');
-  //     } catch (err) {
-  //         console.log(err);
-  //     }
-  // }
+  async componentWillMount() {
+    try {
+      const res = await fetch(`${document.location.origin}`);
+      console.log(res);
+      if (res.redirected) {
+        // history.push('/users/login');
+      } else console.log('Success login');
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   onEntering() {
     this.setState({ status: 'Opening...' });

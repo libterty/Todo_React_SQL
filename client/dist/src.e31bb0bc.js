@@ -43097,6 +43097,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var App =
 /*#__PURE__*/
 function (_Component) {
@@ -43119,20 +43121,47 @@ function (_Component) {
       name: ''
     };
     return _this;
-  } // async componentWillMount() {
-  //     try {
-  //         const res = await fetch(`${document.location.origin}`);
-  //         console.log(res);
-  //         if (res.redirected) {
-  //             // history.push('/users/login');
-  //         } else console.log('Success login');
-  //     } catch (err) {
-  //         console.log(err);
-  //     }
-  // }
-
+  }
 
   _createClass(App, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      return _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        var res;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return fetch("".concat(document.location.origin));
+
+              case 3:
+                res = _context.sent;
+                console.log(res);
+
+                if (res.redirected) {// history.push('/users/login');
+                } else console.log('Success login');
+
+                _context.next = 11;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](0);
+                console.log(_context.t0);
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 8]]);
+      }))();
+    }
+  }, {
     key: "onEntering",
     value: function onEntering() {
       this.setState({
@@ -68851,7 +68880,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53677" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60526" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

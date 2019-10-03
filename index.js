@@ -8,6 +8,8 @@ const passport = require('passport');
 const flash = require('flash');
 
 const app = express();
+const Todo = require('./models/todo');
+const { authenticated } = require('./config/auth');
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
@@ -32,14 +34,23 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
 
-app.use(async(req, res, next) => {
-    await req.user;
+app.use((req, res, next) => {
     res.locals.user = req.user;
     console.log(req.user);
-    await req.isAuthenticated();
     res.locals.isAuthenticated = req.isAuthenticated();
+    console.log(req.isAuthenticated());
     next();
 });
+
+app.post(
+    '/users/login',
+    passport.authenticate('local', { failureRedirect: '/users/login' }),
+    (req, res) => {
+        // console.log('reqUser', req)
+        res.redirect('/');
+        // console.log('realres', res)
+    }
+);
 
 // 設定路由
 app.use('/', require('./routes/home'));
