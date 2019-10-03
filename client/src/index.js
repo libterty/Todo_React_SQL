@@ -6,6 +6,8 @@ import Header from './components/Header';
 import Register from './components/Register';
 import Login from './components/Login';
 import history from './history';
+import 'babel-core/register';
+import 'babel-polyfill';
 import './index.css';
 
 render(

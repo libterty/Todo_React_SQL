@@ -26,19 +26,35 @@ class LoginUser extends Component {
     this.setState({ password: e.target.value });
   };
 
-  LoginUser = () => {
+  LoginUser() {
     const { email, name, password } = this.state;
-    console.log(this.state);
     fetch(`${document.location.origin}/users/login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({ email, name, password })
-    })
-      .then(response => response.json())
-      .then(json => {
-        history.push('/');
-      });
-  };
+    }).then(response => response.text());
+  }
+
+  // LoginUser = () => {
+  //     const { email, name, password } = this.state;
+  //     console.log(this.state);
+  //     fetch(`${document.location.origin}/users/login`, {
+  //             method: 'POST',
+  //             headers: {
+  //                 Accept: 'application/json',
+  //                 'Content-Type': 'application/json'
+  //             },
+  //             body: JSON.stringify({ email, name, password })
+  //         })
+  //         .then(response => response.json())
+  //         .then(json => {
+  //             console.log(json);
+  //             history.push('/');
+  //         });
+  // };
 
   render() {
     return (
@@ -81,7 +97,11 @@ class LoginUser extends Component {
                     onChange={this.updatePassword}
                   />
                 </FormGroup>
-                <Button color="success" size="lg" onClick={this.LoginUser}>
+                <Button
+                  color="success"
+                  size="lg"
+                  onClick={() => this.LoginUser()}
+                >
                   Submit
                 </Button>
               </Form>

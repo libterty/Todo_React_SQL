@@ -7,6 +7,7 @@ import {
   InputGroupAddon,
   Input
 } from 'reactstrap';
+import history from '../history';
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +19,18 @@ class App extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = { collapse: false, status: 'Closed', name: '' };
   }
+
+  // async componentWillMount() {
+  //     try {
+  //         const res = await fetch(`${document.location.origin}`);
+  //         console.log(res);
+  //         if (res.redirected) {
+  //             // history.push('/users/login');
+  //         } else console.log('Success login');
+  //     } catch (err) {
+  //         console.log(err);
+  //     }
+  // }
 
   onEntering() {
     this.setState({ status: 'Opening...' });

@@ -9,12 +9,13 @@ const User = db.User;
 // 認證系統的路由
 
 // 登入檢查
-router.post('/login', (req, res, next) => {
-    passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/users/login'
-    })(req, res, next);
-});
+router.post('/login',
+    passport.authenticate('local', { failureRedirect: '/users/login' }),
+    (req, res) => {
+        console.log("reqUser", req.user)
+        res.redirect('/')
+    }
+);
 
 // 註冊檢查
 router.post('/register', (req, res) => {

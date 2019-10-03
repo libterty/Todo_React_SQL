@@ -10,7 +10,7 @@ const flash = require('flash');
 const app = express();
 
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
+    require('dotenv').config();
 }
 
 const port = process.env.PORT || 3001;
@@ -22,31 +22,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 app.use(
-  session({
-    secret: 'your secret key',
-    resave: 'false',
-    saveUninitialized: 'false'
-  })
+    session({
+        secret: 'your secret key',
+        resave: 'false',
+        saveUninitialized: 'false'
+    })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
 
-app.use((req, res, next) => {
-  res.locals.user = req.user;
-  res.locals.isAuthenticated = req.isAuthenticated();
-  next();
-});
-
-app.use(flash());
-
-app.use((req, res, next) => {
-  res.locals.user = req.user;
-  res.locals.isAuthenticated = req.isAuthenticated();
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.warning_msg = req.flash('warning_msg');
-  next();
+app.use(async(req, res, next) => {
+    await req.user;
+    res.locals.user = req.user;
+    console.log(req.user);
+    await req.isAuthenticated();
+    res.locals.isAuthenticated = req.isAuthenticated();
+    next();
 });
 
 // 設定路由
@@ -56,10 +48,10 @@ app.use('/users', require('./routes/user'));
 // app.use('/auth', require('./routes/auths'));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
 });
 
 // 設定 express port 3000
 app.listen(port, () => {
-  console.log(`App is running on port ${port}!`);
+    console.log(`App is running on port ${port}!`);
 });
