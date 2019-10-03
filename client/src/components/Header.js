@@ -9,7 +9,7 @@ class Header extends Component {
   isLogout() {
     fetch(`http://localhost:3001/users/logout`, {
       method: 'GET'
-    }).then(response => response.json());
+    }).then(response => response.text());
   }
 
   render() {

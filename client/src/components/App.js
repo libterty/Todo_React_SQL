@@ -21,24 +21,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.handleServerItemsLoad();
-  }
-
-  async handleServerItemsLoad() {
-    try {
-      const res = await fetch(`${document.location.origin}/api`, {
-        method: 'GET'
-      })
-        .then(response => response.json())
-        .then(json => this.setState({ name: json }));
-      if (res.url === `${document.location.origin}/users/login`) {
-        history.push('/users/login');
-      } else {
-        history.push('/');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    fetch('http://localhost:3001/api/todo', {
+      method: 'GET'
+    })
+      // err part
+      // expect return json but receive html
+      // postman test pass
+      .then(response => response);
   }
 
   onEntering() {
