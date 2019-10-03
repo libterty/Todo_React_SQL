@@ -43117,8 +43117,7 @@ function (_Component) {
     _this2.toggle = _this2.toggle.bind(_assertThisInitialized(_this2));
     _this2.state = {
       collapse: false,
-      status: 'Closed',
-      name: ''
+      status: 'Closed'
     };
     return _this2;
   }
@@ -43151,9 +43150,7 @@ function (_Component) {
               case 3:
                 res = _context.sent;
 
-                if (res.url === 'http://localhost:3001/users/login') {
-                  console.log(res.url);
-
+                if (res.url === "".concat(document.location.origin, "/users/login")) {
                   _history.default.push('/users/login');
                 } else {
                   _history.default.push('/');
@@ -43222,14 +43219,14 @@ function (_Component) {
     value: function render() {
       return _react.default.createElement("div", {
         className: "App"
-      }, _react.default.createElement("h3", null, " Welcome to 11 Todo List~ "), _react.default.createElement(_reactstrap.Button, {
+      }, _react.default.createElement("h3", null, " Welcome to 11 Todo List~ "), " ", _react.default.createElement(_reactstrap.Button, {
         color: "primary",
         onClick: this.toggle,
         style: {
           marginBottom: '1rem'
         },
         size: "medium"
-      }, "Create New Todo"), _react.default.createElement("h5", null, " Current state: ", this.state.status, " "), _react.default.createElement(_reactstrap.Collapse, {
+      }, "Create New Todo "), " ", _react.default.createElement("h5", null, " Current state: ", this.state.status, " "), " ", _react.default.createElement(_reactstrap.Collapse, {
         isOpen: this.state.collapse,
         onEntering: this.onEntering,
         onEntered: this.onEntered,
@@ -43240,7 +43237,7 @@ function (_Component) {
         method: "POST"
       }, _react.default.createElement(_reactstrap.InputGroup, null, _react.default.createElement(_reactstrap.InputGroupAddon, {
         addonType: "prepend"
-      }, " New Todo "), _react.default.createElement(_reactstrap.Input, {
+      }, " New Todo "), " ", _react.default.createElement(_reactstrap.Input, {
         type: "text",
         name: "name",
         placeholder: "create ur todo",
@@ -43251,7 +43248,7 @@ function (_Component) {
         type: "submit",
         color: "success",
         size: "medium"
-      }, "Submit"))))));
+      }, "Submit "), " "), " "), " "), " "), " ");
     }
   }]);
 
@@ -68923,7 +68920,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50075" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51573" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

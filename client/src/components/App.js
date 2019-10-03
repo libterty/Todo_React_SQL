@@ -17,7 +17,11 @@ class App extends Component {
     this.onExiting = this.onExiting.bind(this);
     this.onExited = this.onExited.bind(this);
     this.toggle = this.toggle.bind(this);
-    this.state = { collapse: false, status: 'Closed', name: '' };
+    this.state = { collapse: false, status: 'Closed' };
+  }
+
+  componentDidMount() {
+    this.handleServerItemsLoad();
   }
 
   async handleServerItemsLoad() {
@@ -27,8 +31,7 @@ class App extends Component {
       })
         .then(response => response.json())
         .then(json => this.setState({ name: json }));
-      if (res.url === 'http://localhost:3001/users/login') {
-        console.log(res.url);
+      if (res.url === `${document.location.origin}/users/login`) {
         history.push('/users/login');
       } else {
         history.push('/');
@@ -36,10 +39,6 @@ class App extends Component {
     } catch (error) {
       console.log(error);
     }
-  }
-
-  componentDidMount() {
-    this.handleServerItemsLoad();
   }
 
   onEntering() {
