@@ -17,18 +17,40 @@ class App extends Component {
     this.onExiting = this.onExiting.bind(this);
     this.onExited = this.onExited.bind(this);
     this.toggle = this.toggle.bind(this);
-    this.state = { collapse: false, status: 'Closed' };
+    this.state = { collapse: false, status: 'Closed', name: {}, todos: [] };
   }
 
   componentDidMount() {
-    fetch('http://localhost:3001/api/todo', {
-      method: 'GET'
+    fetch(`${document.location.origin}/api/todo`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
     })
       // err part
       // expect return json but receive html
       // postman test pass
-      .then(response => response);
+      .then(response => response.json())
+      .then(json => this.setState({ todos: json.todos }));
   }
+
+  // submitNewTodo = () => {
+  //     fetch('htpp:localhost:3001/api/newtodo', {
+  //             method: 'POST',
+  //             headers: {
+  //                 Accept: 'application/json',
+  //                 'Content-Type': 'application/json'
+  //             },
+  //             body: JSON.stringify({ name })
+  //         })
+  //         .then(response => response.json())
+  //         .then(json => {
+  //             this.setState({ name: json.todos.name });
+  //             history.push('/');
+  //         })
+  //         .catch(err => console.log(err));
+  // };
 
   onEntering() {
     this.setState({ status: 'Opening...' });
@@ -51,6 +73,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('this.state.todos', this.state.todos);
     return (
       <div className="App">
         <h3> Welcome to 11 Todo List~ </h3>
@@ -70,7 +93,7 @@ class App extends Component {
           onExiting={this.onExiting}
           onExited={this.onExited}
         >
-          <Form action="/todos" method="POST">
+          <Form action="/api/newtodo" method="POST">
             <InputGroup>
               <InputGroupAddon addonType="prepend"> New Todo </InputGroupAddon>
               <Input
@@ -80,13 +103,23 @@ class App extends Component {
                 className="form-control"
               />
               <InputGroupAddon addonType="append">
-                <Button type="submit" color="success" size="medium">
+                <Button
+                  type="submit"
+                  color="success"
+                  size="medium"
+                  onClick={this.submitNewTodo}
+                >
                   Submit
                 </Button>
               </InputGroupAddon>
             </InputGroup>
           </Form>
         </Collapse>
+        <br />
+        <h3> Your Todo </h3>{' '}
+        {this.state.todos.map(todo => {
+          return <div key={todo.id}> {todo.name} </div>;
+        })}{' '}
       </div>
     );
   }

@@ -11,7 +11,7 @@ router.get('/api/todo', authenticated, async(req, res) => {
     User.findByPk(req.user.id)
         .then(user => {
             if (!user) {
-                return res.redirect('/users/login')
+                return res.status(400).json({ type: 'fail', message: 'Bad request' })
             }
             return Todo.findAll({
                 where: { UserId: req.user.id }
@@ -23,7 +23,7 @@ router.get('/api/todo', authenticated, async(req, res) => {
         .catch(err => console.error(err))
 })
 
-router.post('/api/todo', (req, res) => {
+router.post('/api/newtodo', (req, res) => {
     Todo.create({
             name: req.body.name,
             done: false,

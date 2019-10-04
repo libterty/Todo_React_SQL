@@ -51126,7 +51126,9 @@ function (_Component) {
     _this.toggle = _this.toggle.bind(_assertThisInitialized(_this));
     _this.state = {
       collapse: false,
-      status: 'Closed'
+      status: 'Closed',
+      name: {},
+      todos: []
     };
     return _this;
   }
@@ -51134,15 +51136,41 @@ function (_Component) {
   _createClass(App, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      fetch('http://localhost:3001/api/todo', {
-        method: 'GET'
+      var _this2 = this;
+
+      fetch("".concat(document.location.origin, "/api/todo"), {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
       }) // err part
       // expect return json but receive html
       // postman test pass
       .then(function (response) {
-        return response;
+        return response.json();
+      }).then(function (json) {
+        return _this2.setState({
+          todos: json.todos
+        });
       });
-    }
+    } // submitNewTodo = () => {
+    //     fetch('htpp:localhost:3001/api/newtodo', {
+    //             method: 'POST',
+    //             headers: {
+    //                 Accept: 'application/json',
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({ name })
+    //         })
+    //         .then(response => response.json())
+    //         .then(json => {
+    //             this.setState({ name: json.todos.name });
+    //             history.push('/');
+    //         })
+    //         .catch(err => console.log(err));
+    // };
+
   }, {
     key: "onEntering",
     value: function onEntering() {
@@ -51183,6 +51211,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      console.log('this.state.todos', this.state.todos);
       return _react.default.createElement("div", {
         className: "App"
       }, _react.default.createElement("h3", null, " Welcome to 11 Todo List~ "), _react.default.createElement(_reactstrap.Button, {
@@ -51199,7 +51228,7 @@ function (_Component) {
         onExiting: this.onExiting,
         onExited: this.onExited
       }, _react.default.createElement(_reactstrap.Form, {
-        action: "/todos",
+        action: "/api/newtodo",
         method: "POST"
       }, _react.default.createElement(_reactstrap.InputGroup, null, _react.default.createElement(_reactstrap.InputGroupAddon, {
         addonType: "prepend"
@@ -51213,8 +51242,13 @@ function (_Component) {
       }, _react.default.createElement(_reactstrap.Button, {
         type: "submit",
         color: "success",
-        size: "medium"
-      }, "Submit"))))));
+        size: "medium",
+        onClick: this.submitNewTodo
+      }, "Submit"))))), _react.default.createElement("br", null), _react.default.createElement("h3", null, " Your Todo "), ' ', this.state.todos.map(function (todo) {
+        return _react.default.createElement("div", {
+          key: todo.id
+        }, " ", todo.name, " ");
+      }), ' ');
     }
   }]);
 
@@ -68875,7 +68909,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55098" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55368" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
