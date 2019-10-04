@@ -51176,9 +51176,11 @@ function (_Component) {
       // expect return json but receive html
       // postman test pass
       .then(function (response) {
-        return response.json();
+        return response.redirected ? _history.default.push('/users/login') : response.json();
       }).then(function (json) {
-        return _this2.setState({
+        return json === undefined ? _this2.setState({
+          todos: ''
+        }) : _this2.setState({
           todos: json.todos
         });
       });

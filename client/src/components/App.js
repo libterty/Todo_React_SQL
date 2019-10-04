@@ -32,8 +32,14 @@ class App extends Component {
       // err part
       // expect return json but receive html
       // postman test pass
-      .then(response => response.json())
-      .then(json => this.setState({ todos: json.todos }));
+      .then(response =>
+        response.redirected ? history.push('/users/login') : response.json()
+      )
+      .then(json =>
+        json === undefined
+          ? this.setState({ todos: '' })
+          : this.setState({ todos: json.todos })
+      );
   }
 
   submitNewTodo = () => {
