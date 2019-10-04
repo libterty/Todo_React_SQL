@@ -38,9 +38,6 @@ class App extends Component {
         'Content-Type': 'application/json'
       }
     })
-      // err part
-      // expect return json but receive html
-      // postman test pass
       .then(response =>
         response.redirected ? history.push('/users/login') : response.json()
       )
@@ -50,6 +47,26 @@ class App extends Component {
           : this.setState({ todos: json.todos })
       );
   }
+
+  onEntering() {
+    this.setState({ status: 'Opening...' });
+  }
+
+  onEntered() {
+    this.setState({ status: 'Opened' });
+  }
+
+  onExiting() {
+    this.setState({ status: 'Closing...' });
+  }
+
+  onExited() {
+    this.setState({ status: 'Closed' });
+  }
+
+  updateForm = e => {
+    this.setState({ name: e.target.value });
+  };
 
   submitNewTodo = () => {
     fetch(`${document.location.origin}api/newtodo`, {
@@ -68,19 +85,6 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
-  // updateTodo = () => {
-  //   fetch(`${document.location.origin}/api/:id`, {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({ edit })
-  //   })
-  //     .then(response => (response.redirect ? history.push('/') : 'Warning'))
-  //     .catch(err => console.log(err));
-  // };
-
   deleteTodo = () => {
     fetch(`${document.location.origin}/api/:id/`, {
       method: 'POST',
@@ -92,26 +96,6 @@ class App extends Component {
       .then(response => (response.redirect ? history.push('/') : 'Warning'))
       .catch(err => console.log(err));
   };
-
-  updateForm = e => {
-    this.setState({ name: e.target.value });
-  };
-
-  onEntering() {
-    this.setState({ status: 'Opening...' });
-  }
-
-  onEntered() {
-    this.setState({ status: 'Opened' });
-  }
-
-  onExiting() {
-    this.setState({ status: 'Closing...' });
-  }
-
-  onExited() {
-    this.setState({ status: 'Closed' });
-  }
 
   toggle() {
     this.setState(state => ({ collapse: !state.collapse }));

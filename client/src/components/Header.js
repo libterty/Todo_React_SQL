@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
 import { Navbar } from 'react-bootstrap';
 import { Button } from 'reactstrap';
+import history from '../history';
 
 class Header extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLog: false
+      isLogout: true
     };
   }
 
   get displayLog() {
-    if (this.state.isLog) {
+    if (this.state.isLogout) {
       return (
         <Button
           type="button"
           color="danger"
           size="medium"
-          onClick={this.checkLog}
+          onClick={this.logoutUser}
         >
           Logout
         </Button>
@@ -32,19 +33,21 @@ class Header extends Component {
     );
   }
 
-  // componentDidMount() {
-  //   fetch(`${document.location.origin}/api/todo`, {
-  //     method: 'GET',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'application/json'
-  //     }
-  //   }).then(response =>
-  //     response.redirected
-  //       ? this.setState({ isLog: false })
-  //       : this.setState({ isLog: true })
-  //   );
-  // }
+  logoutUser = () => {
+    fetch(`${document.location.origin}/users/logout`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => (response.redirected ? alert('You have logout') : null))
+      .then(json =>
+        json === undefined
+          ? history.push('/users/login')
+          : this.setState({ isLogout: false })
+      );
+  };
 
   render() {
     return (

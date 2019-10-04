@@ -45,24 +45,6 @@ class LoginUser extends Component {
     });
   }
 
-  // LoginUser = () => {
-  //     const { email, name, password } = this.state;
-  //     console.log(this.state);
-  //     fetch(`${document.location.origin}/users/login`, {
-  //             method: 'POST',
-  //             headers: {
-  //                 Accept: 'application/json',
-  //                 'Content-Type': 'application/json'
-  //             },
-  //             body: JSON.stringify({ email, name, password })
-  //         })
-  //         .then(response => response.json())
-  //         .then(json => {
-  //             console.log(json);
-  //             history.push('/');
-  //         });
-  // };
-
   render() {
     return (
       <div className="container mb-3">

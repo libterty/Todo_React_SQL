@@ -51120,6 +51120,12 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
 
+    _this.updateForm = function (e) {
+      _this.setState({
+        name: e.target.value
+      });
+    };
+
     _this.submitNewTodo = function () {
       fetch("".concat(document.location.origin, "api/newtodo"), {
         method: 'POST',
@@ -51154,12 +51160,6 @@ function (_Component) {
       });
     };
 
-    _this.updateForm = function (e) {
-      _this.setState({
-        name: e.target.value
-      });
-    };
-
     _this.onEntering = _this.onEntering.bind(_assertThisInitialized(_this));
     _this.onEntered = _this.onEntered.bind(_assertThisInitialized(_this));
     _this.onExiting = _this.onExiting.bind(_assertThisInitialized(_this));
@@ -51187,10 +51187,7 @@ function (_Component) {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         }
-      }) // err part
-      // expect return json but receive html
-      // postman test pass
-      .then(function (response) {
+      }).then(function (response) {
         return response.redirected ? _history.default.push('/users/login') : response.json();
       }).then(function (json) {
         return json === undefined ? _this2.setState({
@@ -51199,19 +51196,7 @@ function (_Component) {
           todos: json.todos
         });
       });
-    } // updateTodo = () => {
-    //   fetch(`${document.location.origin}/api/:id`, {
-    //     method: 'POST',
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ edit })
-    //   })
-    //     .then(response => (response.redirect ? history.push('/') : 'Warning'))
-    //     .catch(err => console.log(err));
-    // };
-
+    }
   }, {
     key: "onEntering",
     value: function onEntering() {
@@ -68402,6 +68387,10 @@ var _reactBootstrap = require("react-bootstrap");
 
 var _reactstrap = require("reactstrap");
 
+var _history = _interopRequireDefault(require("../history"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -68435,27 +68424,31 @@ function (_Component) {
     _classCallCheck(this, Header);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Header).call(this, props));
+
+    _this.logoutUser = function () {
+      fetch("".concat(document.location.origin, "/users/logout"), {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(function (response) {
+        return response.redirected ? alert('You have logout') : null;
+      }).then(function (json) {
+        return json === undefined ? _history.default.push('/users/login') : _this.setState({
+          isLogout: false
+        });
+      });
+    };
+
     _this.state = {
-      isLog: false
+      isLogout: true
     };
     return _this;
   }
 
   _createClass(Header, [{
     key: "render",
-    // componentDidMount() {
-    //   fetch(`${document.location.origin}/api/todo`, {
-    //     method: 'GET',
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }).then(response =>
-    //     response.redirected
-    //       ? this.setState({ isLog: false })
-    //       : this.setState({ isLog: true })
-    //   );
-    // }
     value: function render() {
       return _react.default.createElement("header", null, _react.default.createElement(_reactBootstrap.Navbar, {
         sticky: "top",
@@ -68467,12 +68460,12 @@ function (_Component) {
   }, {
     key: "displayLog",
     get: function get() {
-      if (this.state.isLog) {
+      if (this.state.isLogout) {
         return _react.default.createElement(_reactstrap.Button, {
           type: "button",
           color: "danger",
           size: "medium",
-          onClick: this.checkLog
+          onClick: this.logoutUser
         }, "Logout");
       }
 
@@ -68489,7 +68482,7 @@ function (_Component) {
 
 var _default = Header;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","reactstrap":"../../node_modules/reactstrap/es/index.js"}],"components/Register.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","reactstrap":"../../node_modules/reactstrap/es/index.js","../history":"history.js"}],"components/Register.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -68772,24 +68765,7 @@ function (_Component) {
           _history.default.push('/');
         }
       });
-    } // LoginUser = () => {
-    //     const { email, name, password } = this.state;
-    //     console.log(this.state);
-    //     fetch(`${document.location.origin}/users/login`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 Accept: 'application/json',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({ email, name, password })
-    //         })
-    //         .then(response => response.json())
-    //         .then(json => {
-    //             console.log(json);
-    //             history.push('/');
-    //         });
-    // };
-
+    }
   }, {
     key: "render",
     value: function render() {
@@ -69154,7 +69130,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57482" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57950" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

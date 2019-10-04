@@ -56,7 +56,7 @@ router.post('/register', (req, res) => {
 // 登出
 router.get('/logout', (req, res) => {
   req.logOut();
-  res.redirect('/users/login');
+  res.status(200).redirect('/users/login');
 });
 
 module.exports = router;
