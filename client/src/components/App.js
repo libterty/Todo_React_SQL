@@ -62,6 +62,18 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  deleteTodo = () => {
+    fetch(`${document.location.origin}/api/:id/`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => (response.redirect ? history.push('/') : 'Warning'))
+      .catch(err => console.log(err));
+  };
+
   updateForm = e => {
     this.setState({ name: e.target.value });
   };
@@ -139,12 +151,25 @@ class App extends Component {
               <ListGroupItem color="info">
                 <p className="todo-name"> {todo.name} </p>
                 <ButtonGroup size="sm">
-                  <Button className="inline" color="danger">
-                    EDIT
-                  </Button>
-                  <Button className="inline" color="danger">
-                    DELETE
-                  </Button>
+                  <Form>
+                    <Button className="inline" color="danger">
+                      EDIT
+                    </Button>
+                  </Form>
+                  <Form
+                    action={`/api/${todo.id}/?_method=DELETE`}
+                    method="POST"
+                    className="inline"
+                  >
+                    <Button
+                      className="inline"
+                      color="danger"
+                      type="submit"
+                      onClick={this.deleteTodo}
+                    >
+                      DELETE
+                    </Button>
+                  </Form>
                 </ButtonGroup>
               </ListGroupItem>
             </ListGroup>

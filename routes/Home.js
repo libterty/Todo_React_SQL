@@ -60,7 +60,8 @@ router.put('/api/newtodo/:id', authenticated, (req, res) => {
     });
 });
 
-router.delete('/api/newtodo/:id/delete', authenticated, (req, res) => {
+router.delete('/api/:id/', authenticated, (req, res) => {
+  console.log('req.params.id', req.params.id);
   User.findByPk(req.user.id)
     .then(user => {
       if (!user) {
@@ -69,7 +70,7 @@ router.delete('/api/newtodo/:id/delete', authenticated, (req, res) => {
       return Todo.destroy({
         where: {
           UserId: req.user.id,
-          Id: req.body.id
+          Id: req.params.id
         }
       });
     })

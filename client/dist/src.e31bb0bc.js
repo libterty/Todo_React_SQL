@@ -51140,6 +51140,20 @@ function (_Component) {
       });
     };
 
+    _this.deleteTodo = function () {
+      fetch("".concat(document.location.origin, "/api/:id/"), {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(function (response) {
+        return response.redirect ? _history.default.push('/') : 'Warning';
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    };
+
     _this.updateForm = function (e) {
       _this.setState({
         name: e.target.value
@@ -51225,6 +51239,8 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       console.log('this.state.todos', this.state.todos);
       return _react.default.createElement("div", {
         className: "App"
@@ -51269,13 +51285,19 @@ function (_Component) {
           className: "todo-name"
         }, " ", todo.name, " "), _react.default.createElement(_reactstrap.ButtonGroup, {
           size: "sm"
+        }, _react.default.createElement(_reactstrap.Form, null, _react.default.createElement(_reactstrap.Button, {
+          className: "inline",
+          color: "danger"
+        }, "EDIT")), _react.default.createElement(_reactstrap.Form, {
+          action: "/api/".concat(todo.id, "/?_method=DELETE"),
+          method: "POST",
+          className: "inline"
         }, _react.default.createElement(_reactstrap.Button, {
           className: "inline",
-          color: "danger"
-        }, "EDIT"), _react.default.createElement(_reactstrap.Button, {
-          className: "inline",
-          color: "danger"
-        }, "DELETE"))));
+          color: "danger",
+          type: "submit",
+          onClick: _this3.deleteTodo
+        }, "DELETE")))));
       }), ' ');
     }
   }]);
@@ -68955,7 +68977,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49433" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53069" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
