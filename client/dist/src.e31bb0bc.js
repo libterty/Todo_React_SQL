@@ -68435,9 +68435,7 @@ function (_Component) {
       }).then(function (response) {
         return response.redirected ? alert('You have logout') : null;
       }).then(function (json) {
-        return json === undefined ? _history.default.push('/users/login') : _this.setState({
-          isLogout: false
-        });
+        return json === undefined ? _history.default.push('/users/login') : null;
       });
     };
 
@@ -68448,6 +68446,26 @@ function (_Component) {
   }
 
   _createClass(Header, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      var _this2 = this;
+
+      fetch("".concat(document.location.origin, "/api/todo"), {
+        method: 'GET',
+        redirect: 'follow',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(function (response) {
+        return response.url === "".concat(document.location.origin, "/users/login") ? _this2.setState({
+          isLogout: false
+        }) : _this2.setState({
+          isLogout: true
+        });
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react.default.createElement("header", null, _react.default.createElement(_reactBootstrap.Navbar, {
@@ -69130,7 +69148,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57950" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53952" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

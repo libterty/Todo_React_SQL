@@ -12,6 +12,21 @@ class Header extends Component {
     };
   }
 
+  componentDidUpdate() {
+    fetch(`${document.location.origin}/api/todo`, {
+      method: 'GET',
+      redirect: 'follow',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(response =>
+      response.url === `${document.location.origin}/users/login`
+        ? this.setState({ isLogout: false })
+        : this.setState({ isLogout: true })
+    );
+  }
+
   get displayLog() {
     if (this.state.isLogout) {
       return (
@@ -42,11 +57,7 @@ class Header extends Component {
       }
     })
       .then(response => (response.redirected ? alert('You have logout') : null))
-      .then(json =>
-        json === undefined
-          ? history.push('/users/login')
-          : this.setState({ isLogout: false })
-      );
+      .then(json => (json === undefined ? history.push('/users/login') : null));
   };
 
   render() {
