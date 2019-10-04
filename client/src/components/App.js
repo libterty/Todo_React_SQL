@@ -20,7 +20,13 @@ class App extends Component {
     this.onExiting = this.onExiting.bind(this);
     this.onExited = this.onExited.bind(this);
     this.toggle = this.toggle.bind(this);
-    this.state = { collapse: false, status: 'Closed', name: '', todos: [] };
+    this.ediToggle = this.toggle.bind(this);
+    this.state = {
+      collapse: false,
+      status: 'Closed',
+      name: '',
+      todos: []
+    };
   }
 
   componentDidMount() {
@@ -62,6 +68,19 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  // updateTodo = () => {
+  //   fetch(`${document.location.origin}/api/:id`, {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({ edit })
+  //   })
+  //     .then(response => (response.redirect ? history.push('/') : 'Warning'))
+  //     .catch(err => console.log(err));
+  // };
+
   deleteTodo = () => {
     fetch(`${document.location.origin}/api/:id/`, {
       method: 'POST',
@@ -99,7 +118,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('this.state.todos', this.state.todos);
     return (
       <div className="App">
         <h3> Welcome to 11 Todo List~ </h3>
@@ -143,19 +161,22 @@ class App extends Component {
             </InputGroup>
           </Form>
         </Collapse>
-        <br />
-        <h3> Your Todo </h3>{' '}
+        <br /> <h3> Your Todo </h3>{' '}
         {this.state.todos.map(todo => {
           return (
             <ListGroup key={todo.id}>
               <ListGroupItem color="info">
                 <p className="todo-name"> {todo.name} </p>
                 <ButtonGroup size="sm">
-                  <Form>
-                    <Button className="inline" color="danger">
-                      EDIT
-                    </Button>
-                  </Form>
+                  <Button
+                    type="button"
+                    className="inline"
+                    color="danger"
+                    value={todo.id}
+                    href={`/${todo.id}`}
+                  >
+                    EDIT
+                  </Button>
                   <Form
                     action={`/api/${todo.id}/?_method=DELETE`}
                     method="POST"

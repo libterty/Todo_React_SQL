@@ -51165,6 +51165,7 @@ function (_Component) {
     _this.onExiting = _this.onExiting.bind(_assertThisInitialized(_this));
     _this.onExited = _this.onExited.bind(_assertThisInitialized(_this));
     _this.toggle = _this.toggle.bind(_assertThisInitialized(_this));
+    _this.ediToggle = _this.toggle.bind(_assertThisInitialized(_this));
     _this.state = {
       collapse: false,
       status: 'Closed',
@@ -51198,7 +51199,19 @@ function (_Component) {
           todos: json.todos
         });
       });
-    }
+    } // updateTodo = () => {
+    //   fetch(`${document.location.origin}/api/:id`, {
+    //     method: 'POST',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ edit })
+    //   })
+    //     .then(response => (response.redirect ? history.push('/') : 'Warning'))
+    //     .catch(err => console.log(err));
+    // };
+
   }, {
     key: "onEntering",
     value: function onEntering() {
@@ -51241,7 +51254,6 @@ function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      console.log('this.state.todos', this.state.todos);
       return _react.default.createElement("div", {
         className: "App"
       }, _react.default.createElement("h3", null, " Welcome to 11 Todo List~ "), _react.default.createElement(_reactstrap.Button, {
@@ -51276,7 +51288,7 @@ function (_Component) {
         color: "success",
         size: "medium",
         onClick: this.submitNewTodo
-      }, "Submit"))))), _react.default.createElement("br", null), _react.default.createElement("h3", null, " Your Todo "), ' ', this.state.todos.map(function (todo) {
+      }, "Submit"))))), _react.default.createElement("br", null), " ", _react.default.createElement("h3", null, " Your Todo "), ' ', this.state.todos.map(function (todo) {
         return _react.default.createElement(_reactstrap.ListGroup, {
           key: todo.id
         }, _react.default.createElement(_reactstrap.ListGroupItem, {
@@ -51285,10 +51297,13 @@ function (_Component) {
           className: "todo-name"
         }, " ", todo.name, " "), _react.default.createElement(_reactstrap.ButtonGroup, {
           size: "sm"
-        }, _react.default.createElement(_reactstrap.Form, null, _react.default.createElement(_reactstrap.Button, {
+        }, _react.default.createElement(_reactstrap.Button, {
+          type: "button",
           className: "inline",
-          color: "danger"
-        }, "EDIT")), _react.default.createElement(_reactstrap.Form, {
+          color: "danger",
+          value: todo.id,
+          href: "/".concat(todo.id)
+        }, "EDIT"), _react.default.createElement(_reactstrap.Form, {
           action: "/api/".concat(todo.id, "/?_method=DELETE"),
           method: "POST",
           className: "inline"
@@ -68839,7 +68854,119 @@ function (_Component) {
 
 var _default = LoginUser;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","reactstrap":"../../node_modules/reactstrap/es/index.js","react-router-dom":"../../node_modules/react-router-dom/esm/react-router-dom.js","../history":"history.js"}],"../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","reactstrap":"../../node_modules/reactstrap/es/index.js","react-router-dom":"../../node_modules/react-router-dom/esm/react-router-dom.js","../history":"history.js"}],"components/EditTodo.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _reactstrap = require("reactstrap");
+
+var _history = _interopRequireDefault(require("../history"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var EditTodo =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(EditTodo, _Component);
+
+  function EditTodo(props) {
+    var _this;
+
+    _classCallCheck(this, EditTodo);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EditTodo).call(this, props));
+    _this.onButtonClick = _this.onButtonClick.bind(_assertThisInitialized(_this));
+    _this.state = {
+      todo: '',
+      edit: '',
+      showComponent: false
+    };
+    return _this;
+  }
+
+  _createClass(EditTodo, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      fetch("".concat(document.location.origin, "/api").concat(document.location.pathname), {
+        method: 'GET',
+        redirect: 'follow',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(function (response) {
+        return response.redirected ? _history.default.push('/users/login') : response.json();
+      }).then(function (json) {
+        return json === undefined ? _this2.setState({
+          todo: ''
+        }) : _this2.setState({
+          todo: json.todo
+        });
+      });
+    }
+  }, {
+    key: "onButtonClick",
+    value: function onButtonClick() {
+      this.setState({
+        showComponent: true
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      console.log('this.state.todo', this.state.todo);
+      return _react.default.createElement("div", {
+        className: "EditTodo"
+      }, _react.default.createElement("h4", null, " Edit: ", this.state.todo.name, " "), _react.default.createElement(_reactstrap.ListGroup, {
+        key: this.state.todo.id
+      }, _react.default.createElement(_reactstrap.ListGroupItem, {
+        color: "info"
+      }, _react.default.createElement("p", {
+        className: "todo-name"
+      }, " ", this.state.todo.name, " "), _react.default.createElement(_reactstrap.ButtonGroup, {
+        size: "sm"
+      }, _react.default.createElement(_reactstrap.Button, {
+        onClick: this.onButtonClick
+      }, " EDIT ")))));
+    }
+  }]);
+
+  return EditTodo;
+}(_react.Component);
+
+var _default = EditTodo;
+exports.default = _default;
+},{"react":"../../node_modules/react/index.js","reactstrap":"../../node_modules/reactstrap/es/index.js","../history":"history.js"}],"../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -68932,6 +69059,8 @@ var _Register = _interopRequireDefault(require("./components/Register"));
 
 var _Login = _interopRequireDefault(require("./components/Login"));
 
+var _EditTodo = _interopRequireDefault(require("./components/EditTodo"));
+
 var _history = _interopRequireDefault(require("./history"));
 
 require("./index.css");
@@ -68949,8 +69078,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 }, _react.default.createElement(_Header.default, null), _react.default.createElement(_Register.default, null)), _react.default.createElement(_reactRouterDom.Route, {
   exact: true,
   path: "/users/login"
-}, _react.default.createElement(_Header.default, null), _react.default.createElement(_Login.default, null)))), document.getElementById('root'));
-},{"babel-core/register":"../../node_modules/babel-core/register.js","babel-polyfill":"../../node_modules/babel-polyfill/lib/index.js","react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","react-router-dom":"../../node_modules/react-router-dom/esm/react-router-dom.js","./components/App":"components/App.js","./components/Header":"components/Header.js","./components/Register":"components/Register.js","./components/Login":"components/Login.js","./history":"history.js","./index.css":"index.css"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+}, _react.default.createElement(_Header.default, null), _react.default.createElement(_Login.default, null)), _react.default.createElement(_reactRouterDom.Route, {
+  exact: true,
+  path: "/:id"
+}, _react.default.createElement(_Header.default, null), _react.default.createElement(_EditTodo.default, null)))), document.getElementById('root'));
+},{"babel-core/register":"../../node_modules/babel-core/register.js","babel-polyfill":"../../node_modules/babel-polyfill/lib/index.js","react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","react-router-dom":"../../node_modules/react-router-dom/esm/react-router-dom.js","./components/App":"components/App.js","./components/Header":"components/Header.js","./components/Register":"components/Register.js","./components/Login":"components/Login.js","./components/EditTodo":"components/EditTodo.js","./history":"history.js","./index.css":"index.css"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -68977,7 +69109,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53069" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57482" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

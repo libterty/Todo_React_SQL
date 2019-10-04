@@ -25,6 +25,26 @@ router.get('/api/todo', authenticated, async (req, res) => {
     .catch(err => console.error(err));
 });
 
+router.get('/api/:id', authenticated, (req, res) => {
+  User.findByPk(req.user.id)
+    .then(user => {
+      if (!user) {
+        return res.status(400).redirect('/');
+      }
+      return Todo.findOne({
+        where: {
+          Id: req.params.id,
+          UserId: req.user.id
+        }
+      });
+      console.log('TODOID:', req.params.id);
+      console.log('UserID:', req.user.id);
+    })
+    .then(todo => {
+      res.status(200).json({ type: 'success', todo });
+    });
+});
+
 router.post('/api/newtodo', (req, res) => {
   Todo.create({
     name: req.body.name,
@@ -39,7 +59,7 @@ router.post('/api/newtodo', (req, res) => {
     });
 });
 
-router.put('/api/newtodo/:id', authenticated, (req, res) => {
+router.put('/api/:id', authenticated, (req, res) => {
   Todo.findOne({
     where: {
       Id: req.params.id,
@@ -47,7 +67,7 @@ router.put('/api/newtodo/:id', authenticated, (req, res) => {
     }
   })
     .then(todo => {
-      todo.name = req.body.name;
+      todo.name = req.body.edit;
       todo.done = req.body.done === 'on';
 
       return todo.save();

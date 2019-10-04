@@ -7,6 +7,7 @@ import App from './components/App';
 import Header from './components/Header';
 import Register from './components/Register';
 import Login from './components/Login';
+import EditTodo from './components/EditTodo';
 import history from './history';
 import './index.css';
 
@@ -24,6 +25,10 @@ render(
       <Route exact path="/users/login">
         <Header />
         <Login />
+      </Route>
+      <Route exact path="/:id">
+        <Header />
+        <EditTodo />
       </Route>
     </Switch>
   </Router>,
