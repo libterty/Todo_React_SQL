@@ -51119,6 +51119,33 @@ function (_Component) {
     _classCallCheck(this, App);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
+
+    _this.submitNewTodo = function () {
+      fetch("".concat(document.location.origin, "api/newtodo"), {
+        method: 'POST',
+        redirect: 'follow',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name
+        })
+      }).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        _history.default.push('/');
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    };
+
+    _this.updateForm = function (e) {
+      _this.setState({
+        name: e.target.value
+      });
+    };
+
     _this.onEntering = _this.onEntering.bind(_assertThisInitialized(_this));
     _this.onEntered = _this.onEntered.bind(_assertThisInitialized(_this));
     _this.onExiting = _this.onExiting.bind(_assertThisInitialized(_this));
@@ -51127,7 +51154,7 @@ function (_Component) {
     _this.state = {
       collapse: false,
       status: 'Closed',
-      name: {},
+      name: '',
       todos: []
     };
     return _this;
@@ -51140,6 +51167,7 @@ function (_Component) {
 
       fetch("".concat(document.location.origin, "/api/todo"), {
         method: 'GET',
+        redirect: 'follow',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -51154,23 +51182,7 @@ function (_Component) {
           todos: json.todos
         });
       });
-    } // submitNewTodo = () => {
-    //     fetch('htpp:localhost:3001/api/newtodo', {
-    //             method: 'POST',
-    //             headers: {
-    //                 Accept: 'application/json',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({ name })
-    //         })
-    //         .then(response => response.json())
-    //         .then(json => {
-    //             this.setState({ name: json.todos.name });
-    //             history.push('/');
-    //         })
-    //         .catch(err => console.log(err));
-    // };
-
+    }
   }, {
     key: "onEntering",
     value: function onEntering() {
@@ -51236,7 +51248,9 @@ function (_Component) {
         type: "text",
         name: "name",
         placeholder: "create ur todo",
-        className: "form-control"
+        className: "form-control",
+        value: this.state.name,
+        onChange: this.updateForm
       }), _react.default.createElement(_reactstrap.InputGroupAddon, {
         addonType: "append"
       }, _react.default.createElement(_reactstrap.Button, {
@@ -68909,7 +68923,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55368" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58267" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

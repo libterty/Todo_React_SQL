@@ -17,12 +17,13 @@ class App extends Component {
     this.onExiting = this.onExiting.bind(this);
     this.onExited = this.onExited.bind(this);
     this.toggle = this.toggle.bind(this);
-    this.state = { collapse: false, status: 'Closed', name: {}, todos: [] };
+    this.state = { collapse: false, status: 'Closed', name: '', todos: [] };
   }
 
   componentDidMount() {
     fetch(`${document.location.origin}/api/todo`, {
       method: 'GET',
+      redirect: 'follow',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
@@ -35,22 +36,26 @@ class App extends Component {
       .then(json => this.setState({ todos: json.todos }));
   }
 
-  // submitNewTodo = () => {
-  //     fetch('htpp:localhost:3001/api/newtodo', {
-  //             method: 'POST',
-  //             headers: {
-  //                 Accept: 'application/json',
-  //                 'Content-Type': 'application/json'
-  //             },
-  //             body: JSON.stringify({ name })
-  //         })
-  //         .then(response => response.json())
-  //         .then(json => {
-  //             this.setState({ name: json.todos.name });
-  //             history.push('/');
-  //         })
-  //         .catch(err => console.log(err));
-  // };
+  submitNewTodo = () => {
+    fetch(`${document.location.origin}api/newtodo`, {
+      method: 'POST',
+      redirect: 'follow',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name })
+    })
+      .then(response => response.json())
+      .then(json => {
+        history.push('/');
+      })
+      .catch(err => console.log(err));
+  };
+
+  updateForm = e => {
+    this.setState({ name: e.target.value });
+  };
 
   onEntering() {
     this.setState({ status: 'Opening...' });
@@ -101,6 +106,8 @@ class App extends Component {
                 name="name"
                 placeholder="create ur todo"
                 className="form-control"
+                value={this.state.name}
+                onChange={this.updateForm}
               />
               <InputGroupAddon addonType="append">
                 <Button
