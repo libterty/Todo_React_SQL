@@ -51261,9 +51261,21 @@ function (_Component) {
         size: "medium",
         onClick: this.submitNewTodo
       }, "Submit"))))), _react.default.createElement("br", null), _react.default.createElement("h3", null, " Your Todo "), ' ', this.state.todos.map(function (todo) {
-        return _react.default.createElement("div", {
+        return _react.default.createElement(_reactstrap.ListGroup, {
           key: todo.id
-        }, " ", todo.name, " ");
+        }, _react.default.createElement(_reactstrap.ListGroupItem, {
+          color: "info"
+        }, _react.default.createElement("p", {
+          className: "todo-name"
+        }, " ", todo.name, " "), _react.default.createElement(_reactstrap.ButtonGroup, {
+          size: "sm"
+        }, _react.default.createElement(_reactstrap.Button, {
+          className: "inline",
+          color: "danger"
+        }, "EDIT"), _react.default.createElement(_reactstrap.Button, {
+          className: "inline",
+          color: "danger"
+        }, "DELETE"))));
       }), ' ');
     }
   }]);
@@ -68351,6 +68363,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactBootstrap = require("react-bootstrap");
 
+var _reactstrap = require("reactstrap");
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -68378,42 +68392,58 @@ var Header =
 function (_Component) {
   _inherits(Header, _Component);
 
-  function Header() {
+  function Header(props) {
+    var _this;
+
     _classCallCheck(this, Header);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Header).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Header).call(this, props));
+    _this.state = {
+      isLog: false
+    };
+    return _this;
   }
 
   _createClass(Header, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.isLogout();
-    }
-  }, {
-    key: "isLogout",
-    value: function isLogout() {
-      fetch("http://localhost:3001/users/logout", {
-        method: 'GET'
-      }).then(function (response) {
-        return response.text();
-      });
-    }
-  }, {
     key: "render",
+    // componentDidMount() {
+    //   fetch(`${document.location.origin}/api/todo`, {
+    //     method: 'GET',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json'
+    //     }
+    //   }).then(response =>
+    //     response.redirected
+    //       ? this.setState({ isLog: false })
+    //       : this.setState({ isLog: true })
+    //   );
+    // }
     value: function render() {
-      var _this = this;
-
       return _react.default.createElement("header", null, _react.default.createElement(_reactBootstrap.Navbar, {
         sticky: "top",
         bg: "dark",
         variant: "dark",
         expand: "lg"
-      }, _react.default.createElement(_reactBootstrap.Navbar.Brand, null, " Todo List "), _react.default.createElement(_reactBootstrap.Button, {
-        bsStyle: "danger",
-        onClick: function onClick() {
-          return _this.isLogout();
-        }
-      }, "Logout")));
+      }, _react.default.createElement(_reactBootstrap.Navbar.Brand, null, " Todo List "), " ", this.displayLog, ' '));
+    }
+  }, {
+    key: "displayLog",
+    get: function get() {
+      if (this.state.isLog) {
+        return _react.default.createElement(_reactstrap.Button, {
+          type: "button",
+          color: "danger",
+          size: "medium",
+          onClick: this.checkLog
+        }, "Logout");
+      }
+
+      return _react.default.createElement(_reactstrap.Button, {
+        type: "button",
+        color: "Login",
+        href: "/users/login"
+      }, "Login");
     }
   }]);
 
@@ -68422,7 +68452,7 @@ function (_Component) {
 
 var _default = Header;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js"}],"components/Register.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","reactstrap":"../../node_modules/reactstrap/es/index.js"}],"components/Register.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -68925,7 +68955,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58267" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49433" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

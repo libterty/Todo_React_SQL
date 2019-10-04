@@ -25,6 +25,35 @@ a:hover {
     text-decoration: underline;
 }
 
+ul {
+    padding: 1.5%;
+    height: auto;
+    width: 500px;
+}
+
+.list-group-item-info.list-group-item {
+    border-radius: 5.5px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    /* cursor: pointer; */
+    -webkit-transition: 200ms ease-in-out;
+    transition: 200ms ease-in-out;
+    -webkit-animation: eMLfYp 600ms linear;
+    animation: eMLfYp 600ms linear;
+}
+
+.list-group-item-info.list-group-item:hover {
+    transform: translate3d(10px, 10px, 10px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.32), 0 3px 6px rgba(0, 0, 0, 0.46);
+}
+
+.todo-name {
+    float: left;
+}
+
+.btn-group-sm.btn-group {
+    float: right;
+}
+
 @media all and (min-width: 480px) {
     .RegisterUser {
         padding: 60px 0;

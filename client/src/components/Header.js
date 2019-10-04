@@ -1,25 +1,56 @@
 import React, { Component } from 'react';
-import { Navbar, Button } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
+import { Button } from 'reactstrap';
 
 class Header extends Component {
-  componentDidMount() {
-    this.isLogout();
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLog: false
+    };
   }
 
-  isLogout() {
-    fetch(`http://localhost:3001/users/logout`, {
-      method: 'GET'
-    }).then(response => response.text());
+  get displayLog() {
+    if (this.state.isLog) {
+      return (
+        <Button
+          type="button"
+          color="danger"
+          size="medium"
+          onClick={this.checkLog}
+        >
+          Logout
+        </Button>
+      );
+    }
+
+    return (
+      <Button type="button" color="Login" href="/users/login">
+        Login
+      </Button>
+    );
   }
+
+  // componentDidMount() {
+  //   fetch(`${document.location.origin}/api/todo`, {
+  //     method: 'GET',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json'
+  //     }
+  //   }).then(response =>
+  //     response.redirected
+  //       ? this.setState({ isLog: false })
+  //       : this.setState({ isLog: true })
+  //   );
+  // }
 
   render() {
     return (
       <header>
         <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
-          <Navbar.Brand> Todo List </Navbar.Brand>
-          <Button bsStyle="danger" onClick={() => this.isLogout()}>
-            Logout
-          </Button>
+          <Navbar.Brand> Todo List </Navbar.Brand> {this.displayLog}{' '}
         </Navbar>
       </header>
     );

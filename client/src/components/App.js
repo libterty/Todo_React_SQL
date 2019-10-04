@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import {
   Button,
+  ButtonGroup,
   Collapse,
   Form,
   InputGroup,
   InputGroupAddon,
-  Input
+  Input,
+  ListGroup,
+  ListGroupItem
 } from 'reactstrap';
 import history from '../history';
 
@@ -131,7 +134,21 @@ class App extends Component {
         <br />
         <h3> Your Todo </h3>{' '}
         {this.state.todos.map(todo => {
-          return <div key={todo.id}> {todo.name} </div>;
+          return (
+            <ListGroup key={todo.id}>
+              <ListGroupItem color="info">
+                <p className="todo-name"> {todo.name} </p>
+                <ButtonGroup size="sm">
+                  <Button className="inline" color="danger">
+                    EDIT
+                  </Button>
+                  <Button className="inline" color="danger">
+                    DELETE
+                  </Button>
+                </ButtonGroup>
+              </ListGroupItem>
+            </ListGroup>
+          );
         })}{' '}
       </div>
     );

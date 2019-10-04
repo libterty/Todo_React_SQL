@@ -3,7 +3,7 @@
 /config
 /migrations
 /models
-/routes
+# /routes
 /seeders
 /node_modules
 .cache
