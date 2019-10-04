@@ -68903,6 +68903,33 @@ function (_Component) {
     _classCallCheck(this, EditTodo);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(EditTodo).call(this, props));
+
+    _this.submitNewTodo = function () {
+      fetch("".concat(document.location.origin, "api").concat(document.location.pathname), {
+        method: 'POST',
+        redirect: 'follow',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          edit: edit
+        })
+      }).then(function (response) {
+        return response.redirect ? _history.default.push('/') : response.json();
+      }).then(function (json) {
+        _history.default.push('/');
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    };
+
+    _this.updateForm = function (e) {
+      _this.setState({
+        edit: e.target.value
+      });
+    };
+
     _this.onButtonClick = _this.onButtonClick.bind(_assertThisInitialized(_this));
     _this.state = {
       todo: '',
@@ -68944,7 +68971,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log('this.state.todo', this.state.todo);
+      console.log('this.state.edit', this.state.edit);
       return _react.default.createElement("div", {
         className: "EditTodo"
       }, _react.default.createElement("h4", null, " Edit: ", this.state.todo.name, " "), _react.default.createElement(_reactstrap.ListGroup, {
@@ -68957,7 +68984,25 @@ function (_Component) {
         size: "sm"
       }, _react.default.createElement(_reactstrap.Button, {
         onClick: this.onButtonClick
-      }, " EDIT ")))));
+      }, " EDIT "), ' ', this.state.showComponent ? _react.default.createElement(_reactstrap.Form, {
+        action: "/api".concat(document.location.pathname, "?_method=PUT"),
+        method: "POST"
+      }, _react.default.createElement(_reactstrap.InputGroup, null, _react.default.createElement(_reactstrap.InputGroupAddon, {
+        addonType: "prepend"
+      }, "Edit Todo"), _react.default.createElement(_reactstrap.Input, {
+        type: "text",
+        name: "edit",
+        className: "form-control",
+        placeholder: "update new Todo",
+        value: this.state.edit,
+        onChange: this.updateForm
+      }), _react.default.createElement(_reactstrap.Button, {
+        type: "submit",
+        className: "inline",
+        color: "danger",
+        size: "medium",
+        onClick: this.submitNewTodo
+      }, "Submit"))) : null, ' '))));
     }
   }]);
 

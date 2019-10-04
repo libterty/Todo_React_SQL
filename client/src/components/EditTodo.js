@@ -4,7 +4,10 @@ import {
   ListGroupItem,
   ButtonGroup,
   Button,
-  Form
+  Form,
+  Input,
+  InputGroup,
+  InputGroupAddon
 } from 'reactstrap';
 import history from '../history';
 
@@ -44,8 +47,31 @@ class EditTodo extends Component {
     });
   }
 
+  submitNewTodo = () => {
+    fetch(`${document.location.origin}api${document.location.pathname}`, {
+      method: 'POST',
+      redirect: 'follow',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ edit })
+    })
+      .then(response =>
+        response.redirect ? history.push('/') : response.json()
+      )
+      .then(json => {
+        history.push('/');
+      })
+      .catch(err => console.log(err));
+  };
+
+  updateForm = e => {
+    this.setState({ edit: e.target.value });
+  };
+
   render() {
-    console.log('this.state.todo', this.state.todo);
+    console.log('this.state.edit', this.state.edit);
     return (
       <div className="EditTodo">
         <h4> Edit: {this.state.todo.name} </h4>
@@ -53,7 +79,36 @@ class EditTodo extends Component {
           <ListGroupItem color="info">
             <p className="todo-name"> {this.state.todo.name} </p>
             <ButtonGroup size="sm">
-              <Button onClick={this.onButtonClick}> EDIT </Button>
+              <Button onClick={this.onButtonClick}> EDIT </Button>{' '}
+              {this.state.showComponent ? (
+                <Form
+                  action={`/api${document.location.pathname}?_method=PUT`}
+                  method="POST"
+                >
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">
+                      Edit Todo
+                    </InputGroupAddon>
+                    <Input
+                      type="text"
+                      name="edit"
+                      className="form-control"
+                      placeholder="update new Todo"
+                      value={this.state.edit}
+                      onChange={this.updateForm}
+                    />
+                    <Button
+                      type="submit"
+                      className="inline"
+                      color="danger"
+                      size="medium"
+                      onClick={this.submitNewTodo}
+                    >
+                      Submit
+                    </Button>
+                  </InputGroup>
+                </Form>
+              ) : null}{' '}
             </ButtonGroup>
           </ListGroupItem>
         </ListGroup>
