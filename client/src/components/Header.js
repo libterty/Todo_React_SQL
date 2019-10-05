@@ -13,19 +13,21 @@ class Header extends Component {
   }
 
   componentDidUpdate() {
-    fetch(`${document.location.origin}/api/todo`, {
-      method: 'GET',
-      redirect: 'follow',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(response =>
-      // console.log(response)
-      response.url === `${document.location.origin}/users/login`
-        ? this.setState({ isLogout: false })
-        : this.setState({ isLogout: true })
-    );
+    setTimeout(() => {
+      fetch(`${document.location.origin}/api/todo`, {
+        method: 'GET',
+        redirect: 'follow',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(response =>
+        // console.log(response)
+        response.url === `${document.location.origin}/users/login`
+          ? this.setState({ isLogout: false })
+          : this.setState({ isLogout: true })
+      );
+    }, 500);
   }
 
   get displayLog() {
