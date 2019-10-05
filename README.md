@@ -15,21 +15,21 @@
 
 ## Build Environment for production
 
-Type following script for building production
+Type following script for installing dependence and building production
 ```bash
-$ npm run start
+$ npm i && npm run start
 ```
 
 ## Build for Development Useage
 
-Type following script for building production
+Type following script for installing dependencies and building production
 ```bash
-$ npm run dev
+$ npm i && npm run dev
 ```
 
 ## Linting
 
-Type following script for building production
+Before typing following script for linting, install devdependencies is essential
 ```bash
 $ npm run lint
 ```
