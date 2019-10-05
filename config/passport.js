@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const cryptoHash = require('./cryptoHash');
 // const FacebookStrategy = require('passport-facebook').Strategy;
 // const bcrypt = require('bcryptjs');
 
@@ -14,7 +15,7 @@ module.exports = passport => {
                     if (!user) {
                         return done(false, false, { message: 'That email is not registered' })
                     }
-                    if (user.password != password) {
+                    if (user.password != cryptoHash(password)) {
                         console.log('Email or Password incorrect')
                         return done(false, false, { message: 'Wrong Email or Password' })
                     }
