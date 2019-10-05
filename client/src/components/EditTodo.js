@@ -9,6 +9,7 @@ import {
   InputGroup,
   InputGroupAddon
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import history from '../history';
 
 class EditTodo extends Component {
@@ -112,6 +113,7 @@ class EditTodo extends Component {
             </ButtonGroup>
           </ListGroupItem>
         </ListGroup>
+        <Link to="/"> Home Page </Link>
       </div>
     );
   }

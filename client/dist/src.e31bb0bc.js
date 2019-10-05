@@ -68458,11 +68458,13 @@ function (_Component) {
           'Content-Type': 'application/json'
         }
       }).then(function (response) {
-        return response.url === "".concat(document.location.origin, "/users/login") ? _this2.setState({
-          isLogout: false
-        }) : _this2.setState({
-          isLogout: true
-        });
+        return (// console.log(response)
+          response.url === "".concat(document.location.origin, "/users/login") ? _this2.setState({
+            isLogout: false
+          }) : _this2.setState({
+            isLogout: true
+          })
+        );
       });
     }
   }, {
@@ -68473,7 +68475,7 @@ function (_Component) {
         bg: "dark",
         variant: "dark",
         expand: "lg"
-      }, _react.default.createElement(_reactBootstrap.Navbar.Brand, null, " Todo List "), " ", this.displayLog, ' '));
+      }, _react.default.createElement(_reactBootstrap.Navbar.Brand, null, " Todo List "), " ", this.displayLog, ' ', " "), " ");
     }
   }, {
     key: "displayLog",
@@ -68484,14 +68486,14 @@ function (_Component) {
           color: "danger",
           size: "medium",
           onClick: this.logoutUser
-        }, "Logout");
+        }, "Logout ");
       }
 
       return _react.default.createElement(_reactstrap.Button, {
         type: "button",
         color: "Login",
         href: "/users/login"
-      }, "Login");
+      }, "Login ");
     }
   }]);
 
@@ -68880,6 +68882,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactstrap = require("reactstrap");
 
+var _reactRouterDom = require("react-router-dom");
+
 var _history = _interopRequireDefault(require("../history"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -69016,7 +69020,9 @@ function (_Component) {
         color: "danger",
         size: "medium",
         onClick: this.submitNewTodo
-      }, "Submit"))) : null, ' '))));
+      }, "Submit"))) : null, ' '))), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/"
+      }, " Home Page "));
     }
   }]);
 
@@ -69025,7 +69031,7 @@ function (_Component) {
 
 var _default = EditTodo;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","reactstrap":"../../node_modules/reactstrap/es/index.js","../history":"history.js"}],"../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","reactstrap":"../../node_modules/reactstrap/es/index.js","react-router-dom":"../../node_modules/react-router-dom/esm/react-router-dom.js","../history":"history.js"}],"../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -69168,7 +69174,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52791" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60540" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

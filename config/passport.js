@@ -17,11 +17,12 @@ module.exports = passport => {
             message: 'That email is not registered'
           });
         }
-        if (user.password != cryptoHash(password)) {
-          console.log('Email or Password incorrect');
-          return done(false, false, { message: 'Wrong Email or Password' });
-        }
-        return done(null, user);
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+          if (isMatch) {
+            return done(null, user);
+          }
+          return done(null, false, { message: 'Email and Password incorrect' });
+        });
       });
     })
   );

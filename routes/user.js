@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 const passport = require('passport');
+const bcrypt = require('bcryptjs');
 const db = require('../models');
-const cryptoHash = require('../config/cryptoHash');
 
 const { User } = db;
 
@@ -24,9 +24,7 @@ router.post(
 
 // 註冊檢查
 router.post('/register', (req, res) => {
-  let { name, email, password, password2 } = req.body;
-  password = cryptoHash(password);
-  password2 = cryptoHash(password2);
+  const { name, email, password, password2 } = req.body;
   User.findOne({ where: { email } }).then(user => {
     if (user) {
       console.log(`${user} are already an user.`);
@@ -42,17 +40,23 @@ router.post('/register', (req, res) => {
         email,
         password
       });
-      newUser
-        .save()
-        .then(user =>
-          res.json({
-            type: 'success',
-            body: { name, email, password, password2 }
-          })
-        )
-        .catch(err =>
-          res.status(400).send(`Bad request, error Message: ${err.message}`)
-        );
+      bcrypt.genSalt(10, (err, salt) =>
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err;
+          newUser.password = hash;
+          newUser
+            .save()
+            .then(user =>
+              res.json({
+                type: 'success',
+                body: { name, email, password, password2 }
+              })
+            )
+            .catch(err =>
+              res.status(400).send(`Bad request, error Message: ${err.message}`)
+            );
+        })
+      );
     }
   });
 });

@@ -46,7 +46,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', require('./routes/Home'));
+app.use('/', require('./routes/todo-api'));
 app.use('/users', require('./routes/user'));
 app.use('/auth', require('./routes/facebook-auth'));
 

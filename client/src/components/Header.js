@@ -21,6 +21,7 @@ class Header extends Component {
         'Content-Type': 'application/json'
       }
     }).then(response =>
+      // console.log(response)
       response.url === `${document.location.origin}/users/login`
         ? this.setState({ isLogout: false })
         : this.setState({ isLogout: true })
