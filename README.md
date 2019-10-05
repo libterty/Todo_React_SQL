@@ -17,7 +17,7 @@
 
 Type following script for building production
 ```bash
-$ npm run build
+$ npm run start
 ```
 
 ## Build for Development Useage
