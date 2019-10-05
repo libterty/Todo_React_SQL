@@ -68749,6 +68749,20 @@ function (_Component) {
       });
     };
 
+    _this.LoginWithFB = function () {
+      fetch("/auth/facebook", {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          Accept: 'text/html',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        }
+      }).then(function (response) {
+        return console.log(response);
+      });
+    };
+
     _this.state = {
       name: '',
       email: '',
@@ -68839,7 +68853,13 @@ function (_Component) {
         className: "lead mt-4"
       }, "No Account ?", _react.default.createElement(_reactRouterDom.Link, {
         to: "/users/register"
-      }, " Register Your Own Account "))))));
+      }, " Register Your Own Account ")), _react.default.createElement(_reactstrap.Form, {
+        action: "/auth/facebook",
+        method: "GET"
+      }, _react.default.createElement(_reactstrap.Button, {
+        type: "submit",
+        onClick: this.LoginWithFB
+      }, "Login with FB"))))));
     }
   }]);
 
@@ -69148,7 +69168,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55862" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52791" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

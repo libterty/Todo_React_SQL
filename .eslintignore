@@ -1,6 +1,6 @@
 /views
 /client/dist
-/config
+# /config
 /migrations
 /models
 # /routes

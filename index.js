@@ -5,6 +5,7 @@ const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('flash');
+const cors = require('cors');
 
 const app = express();
 
@@ -13,6 +14,12 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const port = process.env.PORT || 3001;
+
+app.use(
+  cors({
+    origin: true
+  })
+);
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'client/dist')));
@@ -41,6 +48,7 @@ app.use((req, res, next) => {
 
 app.use('/', require('./routes/Home'));
 app.use('/users', require('./routes/user'));
+app.use('/auth', require('./routes/facebook-auth'));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/dist/index.html'));

@@ -45,6 +45,18 @@ class LoginUser extends Component {
     });
   }
 
+  LoginWithFB = () => {
+    fetch(`/auth/facebook`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Accept: 'text/html',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      }
+    }).then(response => console.log(response));
+  };
+
   render() {
     return (
       <div className="container mb-3">
@@ -98,6 +110,11 @@ class LoginUser extends Component {
                 No Account ?
                 <Link to="/users/register"> Register Your Own Account </Link>
               </p>
+              <Form action="/auth/facebook" method="GET">
+                <Button type="submit" onClick={this.LoginWithFB}>
+                  Login with FB
+                </Button>
+              </Form>
             </div>
           </div>
         </div>
